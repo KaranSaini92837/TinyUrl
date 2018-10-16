@@ -1,6 +1,5 @@
 package com.schireson.TinyUrl.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.schireson.TinyUrl.entity.Url;
 import com.schireson.TinyUrl.service.UrlService;
 
@@ -28,19 +26,17 @@ public class UrlController {
 
 	@GetMapping("/ksaini.com/{tinyUrl}")
 	public RedirectView getUrl(@PathVariable String tinyUrl, HttpServletRequest request, HttpServletResponse response) {
-		
-		
-		 RedirectView view = new RedirectView();
-		 view.setUrl("http://" +urlService.getByTinyUrl(tinyUrl).getUrl());
-		 System.out.println(urlService.getByTinyUrl(tinyUrl).getUrl());
-		 return view;
-		
-		//return null;
+
+		RedirectView view = new RedirectView();
+		view.setUrl("http://" + urlService.getByTinyUrl(tinyUrl).getUrl());
+		System.out.println(urlService.getByTinyUrl(tinyUrl).getUrl());
+		return view;
+
+		// return null;
 	}
 
 	@PostMapping("/getTinyUrl")
-	public String getTinyUrl(HttpServletRequest request, HttpServletResponse response, @RequestBody Url url)
-			throws JsonProcessingException, IOException {
+	public String getTinyUrl(HttpServletRequest request, HttpServletResponse response, @RequestBody Url url) {
 		List<Url> urls = urlService.getAllUrls();
 		if (urls.stream().anyMatch(t -> t.getUrl().equals(url.getUrl()))) {
 			return "Url already exists";
@@ -54,6 +50,7 @@ public class UrlController {
 			return "http://localhost:8080/ksaini.com/" + convertTo62Base(s);
 		}
 	}
+
 	/*
 	 * This method converts the long to base62
 	 */
@@ -89,23 +86,4 @@ public class UrlController {
 		}
 		return convertedString;
 	}
-
-	// public Long getDictionaryKeyFromUniqueID(String uniqueID) {
-	// List<Character> base62Number = new ArrayList<>();
-	// for (int i = 0; i < uniqueID.length(); ++i) {
-	// base62Number.add(uniqueID.charAt(i));
-	// }
-	// Long dictionaryKey = convertBase62ToBase10ID(base62IDs);
-	// return dictionaryKey;
-	// }
-	//
-	// private Long convertBase62ToBase10ID(List<Character> ids) {
-	// long id = 0L;
-	// int exp = ids.size() - 1
-	// for (int i = 0; i < ids.size(); ++i, --exp) {
-	// int base10 = charToIndexTable.get(ids.get(i));
-	// id += (base10 * Math.pow(62.0, exp));
-	// }
-	// return id;
-	// }
 }
