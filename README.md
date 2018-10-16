@@ -1,6 +1,6 @@
 # TinyUrl
 
-This is an url shortening REST Web API
+This is an url shortening REST Web API using Spring Boot. I have used Hibernate for persisting data in MySql.
 
 To build this app follow the below steps:
 
